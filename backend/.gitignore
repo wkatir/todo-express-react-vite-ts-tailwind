@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+*.db
+*.db-journal
+.DS_Store
+*.log
+*.tmp
+.vscode/
+.idea/
+coverage/
+.turbo/
+
+
+/src/generated/prisma
