@@ -1,27 +1,28 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ProtectedRoute } from '@/components/layout/ProtectedRoute'
-import { TaskList } from '@/components/tasks/TaskList'
+import { CategoryManager } from '@/components/tasks/CategoryManager'
 
-export const Route = createFileRoute('/tasks')({
-  component: TasksPage,
+export const Route = createFileRoute('/categories')({
+  component: CategoriesPage,
 })
 
-function TasksPage() {
+function CategoriesPage() {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-background">
         <main className="container mx-auto px-4 py-8 max-w-7xl">
           <div className="space-y-6">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">My Tasks</h1>
+              <h1 className="text-3xl font-bold tracking-tight">Categories</h1>
               <p className="text-muted-foreground mt-2">
-                Manage and organize your daily tasks
+                Organize your tasks with custom categories
               </p>
             </div>
-            <TaskList />
+            <CategoryManager />
           </div>
         </main>
       </div>
     </ProtectedRoute>
   )
 }
+

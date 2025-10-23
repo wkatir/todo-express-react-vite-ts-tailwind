@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router"
 import {
   IconInnerShadowTop,
   IconListDetails,
+  IconChartBar,
+  IconCategory,
 } from "@tabler/icons-react"
 
 import { NavMain } from "@/components/layout/nav-main"
@@ -21,9 +23,19 @@ import {
 const data = {
   navMain: [
     {
-      title: "My Tasks",
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: IconChartBar,
+    },
+    {
+      title: "Tasks",
       url: "/tasks",
       icon: IconListDetails,
+    },
+    {
+      title: "Categories",
+      url: "/categories",
+      icon: IconCategory,
     },
   ]
 }
@@ -40,8 +52,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link to="/tasks">
-                <IconInnerShadowTop className="!size-5" />
+              <Link to="/dashboard">
+                <IconInnerShadowTop size={20} />
                 <span className="text-base font-semibold">Task Manager</span>
               </Link>
             </SidebarMenuButton>

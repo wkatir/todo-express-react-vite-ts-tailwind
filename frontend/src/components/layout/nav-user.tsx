@@ -71,7 +71,7 @@ export function NavUser({
                   {user.email}
                 </span>
               </div>
-              <IconDotsVertical className="ml-auto size-4" />
+              <IconDotsVertical size={16} className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -98,34 +98,34 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <IconUserCircle />
+                <IconUserCircle size={16} />
                 <span>Profile</span>
               </DropdownMenuItem>
 
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
-                  <IconSun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                  <IconMoon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  <IconSun size={16} className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <IconMoon size={16} className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                   <span>Theme</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem onClick={() => setTheme("light")}>
-                    <IconSun className="mr-2 h-4 w-4" />
+                    <IconSun size={16} className="mr-2" />
                     <span>Light</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setTheme("dark")}>
-                    <IconMoon className="mr-2 h-4 w-4" />
+                    <IconMoon size={16} className="mr-2" />
                     <span>Dark</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setTheme("system")}>
-                    <IconDeviceDesktop className="mr-2 h-4 w-4" />
+                    <IconDeviceDesktop size={16} className="mr-2" />
                     <span>System</span>
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
 
               <DropdownMenuItem onClick={logout}>
-                <IconLogout />
+                <IconLogout size={16} />
                 <span>Logout</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>

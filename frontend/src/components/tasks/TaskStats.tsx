@@ -78,7 +78,7 @@ export const TaskStats = () => {
                 )}
               </div>
               <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                <stat.icon className={`h-6 w-6 ${stat.color}`} />
+                <stat.icon size={24} className={stat.color} />
               </div>
             </div>
           </Card>

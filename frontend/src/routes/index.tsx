@@ -9,7 +9,7 @@ function IndexPage() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated())
 
   if (isAuthenticated) {
-    return <Navigate to="/tasks" />
+    return <Navigate to="/dashboard" />
   }
 
   return <Navigate to="/login" />

@@ -24,8 +24,13 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild tooltip={item.title}>
-                <Link to={item.url}>
-                  {item.icon && <item.icon />}
+                <Link 
+                  to={item.url}
+                  activeProps={{
+                    className: "bg-sidebar-accent text-sidebar-accent-foreground"
+                  }}
+                >
+                  {item.icon && <item.icon size={20} />}
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>

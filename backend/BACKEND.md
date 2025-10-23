@@ -35,6 +35,34 @@ The application uses SQLite with two models:
 - **User**: Stores user information (id, name, email, password, createdAt)
 - **Task**: Stores tasks (id, userId, title, description, completed, createdAt, updatedAt)
 
+## Environment Variables Configuration
+
+### Create `.env` File
+
+Create a `.env` file in the backend root directory with the following variables:
+
+```env
+# Database (Prisma)
+DATABASE_URL="file:./prisma/dev.db"
+
+# JWT - Secret key for authentication tokens
+JWT_SECRET="your_super_secure_secret_key_here"
+
+# Server port (optional, defaults to 3000)
+PORT=3000
+```
+
+### Variables:
+
+- **DATABASE_URL**: SQLite database connection URL (required)
+- **JWT_SECRET**: Secret key to sign JWT tokens - must be a long, random string (required)
+- **PORT**: Port where the server runs - defaults to 3000 if not set (optional)
+
+To generate a secure JWT_SECRET, run:
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
 ## How to Run the Backend
 
 ### Prerequisites

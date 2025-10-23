@@ -1,9 +1,8 @@
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useEffect, useState } from 'react'
-import { format } from 'date-fns'
-import { IconCalendar, IconX } from '@tabler/icons-react'
+import { IconX } from '@tabler/icons-react'
 import {
   Dialog,
   DialogContent,
@@ -15,18 +14,15 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Badge } from '@/components/ui/badge'
 import { useTasks } from '@/hooks/useTasks'
 import { useCategories } from '@/hooks/useCategories'
 import type { Task } from '@/types'
-import { cn } from '@/lib/utils'
 
 const taskSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().optional(),
-  dueDate: z.date().optional().nullable(),
+  dueDate: z.string().optional(),
   categoryIds: z.array(z.number()).optional(),
 })
 
@@ -48,7 +44,6 @@ export const TaskDialog = ({ open, onOpenChange, task }: TaskDialogProps) => {
     register,
     handleSubmit,
     reset,
-    control,
     setValue,
     formState: { errors },
   } = useForm<TaskFormData>({
@@ -56,7 +51,7 @@ export const TaskDialog = ({ open, onOpenChange, task }: TaskDialogProps) => {
     defaultValues: {
       title: task?.title || '',
       description: task?.description || '',
-      dueDate: task?.dueDate ? new Date(task.dueDate) : null,
+      dueDate: task?.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '',
       categoryIds: task?.categories?.map((tc) => tc.category.id) || [],
     },
   })
@@ -68,12 +63,12 @@ export const TaskDialog = ({ open, onOpenChange, task }: TaskDialogProps) => {
       reset({
         title: task.title,
         description: task.description || '',
-        dueDate: task.dueDate ? new Date(task.dueDate) : null,
+        dueDate: task.dueDate ? new Date(task.dueDate).toISOString().split('T')[0] : '',
         categoryIds: catIds,
       })
     } else {
       setSelectedCategories([])
-      reset({ title: '', description: '', dueDate: null, categoryIds: [] })
+      reset({ title: '', description: '', dueDate: '', categoryIds: [] })
     }
   }, [task, reset])
 
@@ -88,7 +83,7 @@ export const TaskDialog = ({ open, onOpenChange, task }: TaskDialogProps) => {
   const onSubmit = (data: TaskFormData): void => {
     const submitData = {
       ...data,
-      dueDate: data.dueDate ? data.dueDate.toISOString() : undefined,
+      dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined,
       categoryIds: selectedCategories,
     }
     
@@ -152,45 +147,11 @@ export const TaskDialog = ({ open, onOpenChange, task }: TaskDialogProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label>Due Date</Label>
-            <Controller
-              control={control}
-              name="dueDate"
-              render={({ field }) => (
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        'w-full justify-start text-left font-normal',
-                        !field.value && 'text-muted-foreground'
-                      )}
-                    >
-                      <IconCalendar className="mr-2 h-4 w-4" />
-                      {field.value ? format(field.value, 'PPP') : 'Pick a date'}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value || undefined}
-                      onSelect={field.onChange}
-                      initialFocus
-                    />
-                    {field.value && (
-                      <div className="p-3 border-t">
-                        <Button
-                          variant="ghost"
-                          className="w-full"
-                          onClick={() => field.onChange(null)}
-                        >
-                          Clear date
-                        </Button>
-                      </div>
-                    )}
-                  </PopoverContent>
-                </Popover>
-              )}
+            <Label htmlFor="dueDate">Due Date</Label>
+            <Input
+              id="dueDate"
+              type="date"
+              {...register('dueDate')}
             />
           </div>
 
@@ -211,7 +172,7 @@ export const TaskDialog = ({ open, onOpenChange, task }: TaskDialogProps) => {
                 >
                   {category.name}
                   {selectedCategories.includes(category.id) && (
-                    <IconX className="ml-1 h-3 w-3" />
+                    <IconX size={12} className="ml-1" />
                   )}
                 </Badge>
               ))}

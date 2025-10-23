@@ -79,20 +79,16 @@ export const CategoryManager = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <IconLoader2 className="h-8 w-8 animate-spin text-primary" />
+        <IconLoader2 size={32} className="animate-spin text-primary" />
       </div>
     )
   }
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-semibold">Categories</h3>
-          <p className="text-sm text-muted-foreground">Organize your tasks with categories</p>
-        </div>
+      <div className="flex items-center justify-end">
         <Button onClick={handleOpenDialog}>
-          <IconPlus className="h-4 w-4 mr-2" />
+          <IconPlus size={16} className="mr-2" />
           New Category
         </Button>
       </div>
@@ -119,14 +115,14 @@ export const CategoryManager = () => {
                   size="icon"
                   onClick={() => handleEdit(category.id, category.name, category.color)}
                 >
-                  <IconPencil className="h-4 w-4" />
+                  <IconPencil size={16} />
                 </Button>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => handleDelete(category.id)}
                 >
-                  <IconTrash className="h-4 w-4 text-red-500" />
+                  <IconTrash size={16} className="text-red-500" />
                 </Button>
               </div>
             </div>

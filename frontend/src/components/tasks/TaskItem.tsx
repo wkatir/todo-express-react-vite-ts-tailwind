@@ -34,8 +34,11 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
     }
   }
 
+  const isOverdue = task.dueDate && !task.completed && isPast(new Date(task.dueDate)) && !isToday(new Date(task.dueDate))
+  const isDueToday = task.dueDate && isToday(new Date(task.dueDate))
+
   return (
-    <Card className="p-4">
+    <Card className={`p-4 transition-colors hover:bg-accent/50 ${isOverdue ? 'border-red-200' : ''}`}>
       <div className="flex items-start gap-3">
         <Checkbox
           checked={task.completed}
@@ -44,39 +47,29 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
         />
         
         <div className="flex-1 min-w-0">
-          <h3
-            className={`font-medium ${
-              task.completed ? 'line-through text-muted-foreground' : ''
-            }`}
-          >
+          <h3 className={`font-medium text-base ${task.completed ? 'line-through text-muted-foreground' : ''}`}>
             {task.title}
           </h3>
           {task.description && (
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
               {task.description}
             </p>
           )}
-          <div className="flex flex-wrap items-center gap-2 mt-2">
-            <Badge variant={task.completed ? 'secondary' : 'default'}>
-              {task.completed ? 'Completed' : 'Pending'}
-            </Badge>
-            
+          <div className="flex flex-wrap items-center gap-2 mt-3">
             {task.dueDate && (
               <Badge
                 variant="outline"
                 className={
-                  !task.completed && isPast(new Date(task.dueDate)) && !isToday(new Date(task.dueDate))
+                  isOverdue
                     ? 'border-red-500 text-red-500'
-                    : isToday(new Date(task.dueDate))
+                    : isDueToday
                     ? 'border-orange-500 text-orange-500'
                     : ''
                 }
               >
-                <IconCalendar className="h-3 w-3 mr-1" />
-                {format(new Date(task.dueDate), 'MMM d')}
-                {!task.completed && isPast(new Date(task.dueDate)) && !isToday(new Date(task.dueDate)) && (
-                  <IconAlertCircle className="h-3 w-3 ml-1" />
-                )}
+                <IconCalendar size={12} className="mr-1" />
+                {format(new Date(task.dueDate), 'MMM d, yyyy')}
+                {isOverdue && <IconAlertCircle size={12} className="ml-1" />}
               </Badge>
             )}
 
@@ -92,33 +85,25 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
                 {tc.category.name}
               </Badge>
             ))}
-            
-            <span className="text-xs text-muted-foreground">
-              {new Date(task.createdAt).toLocaleDateString('en-US', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              })}
-            </span>
           </div>
         </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <IconDotsVertical className="h-4 w-4" />
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <IconDotsVertical size={16} />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => onEdit(task)}>
-              <IconPencil className="h-4 w-4 mr-2" />
+              <IconPencil size={16} className="mr-2" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleDelete}
               className="text-red-600 focus:text-red-600"
             >
-              <IconTrash className="h-4 w-4 mr-2" />
+              <IconTrash size={16} className="mr-2" />
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
