@@ -3,7 +3,9 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import taskRoutes from './routes/taskRoutes';
+import categoryRoutes from './routes/categoryRoutes';
 import { errorHandler } from './middleware/errorHandler';
+import { authLimiter, apiLimiter } from './middleware/rateLimiter';
 
 dotenv.config();
 
@@ -18,8 +20,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/tasks', taskRoutes);
+app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/tasks', apiLimiter, taskRoutes);
+app.use('/api/categories', apiLimiter, categoryRoutes);
 
 app.get('/', (_req, res) => {
   res.json({ message: 'Task Manager API - Running' });

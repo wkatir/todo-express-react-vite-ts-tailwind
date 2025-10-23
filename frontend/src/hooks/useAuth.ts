@@ -20,7 +20,8 @@ export const useAuth = () => {
       navigate({ to: '/tasks' })
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to sign in')
+      const errorMessage = error.response?.data?.error || error.response?.data?.message || 'Invalid credentials'
+      toast.error(errorMessage)
     },
   })
 
@@ -35,7 +36,8 @@ export const useAuth = () => {
       navigate({ to: '/tasks' })
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.message || 'Failed to create account')
+      const errorMessage = error.response?.data?.error || error.response?.data?.message || 'Failed to create account'
+      toast.error(errorMessage)
     },
   })
 

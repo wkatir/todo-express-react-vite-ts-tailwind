@@ -30,7 +30,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<'form
     resolver: zodResolver(registerSchema),
   })
 
-  const onSubmit = (data: RegisterFormData): void => {
+  const onSubmit = async (data: RegisterFormData) => {
     const { confirmPassword, ...registerData } = data
     registerUser.mutate(registerData)
   }

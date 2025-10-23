@@ -25,7 +25,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
     resolver: zodResolver(loginSchema),
   })
 
-  const onSubmit = (data: LoginFormData): void => {
+  const onSubmit = async (data: LoginFormData) => {
     login.mutate(data)
   }
 

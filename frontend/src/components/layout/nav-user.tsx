@@ -2,6 +2,9 @@ import {
   IconDotsVertical,
   IconLogout,
   IconUserCircle,
+  IconSun,
+  IconMoon,
+  IconDeviceDesktop,
 } from "@tabler/icons-react"
 
 import {
@@ -15,6 +18,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -24,6 +30,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useAuth } from "@/hooks/useAuth"
+import { useTheme } from "@/components/theme-provider"
 import type { User } from "@/types"
 
 export function NavUser({
@@ -33,6 +40,7 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar()
   const { logout } = useAuth()
+  const { theme, setTheme } = useTheme()
 
   const getInitials = (name: string): string => {
     return name
@@ -93,6 +101,28 @@ export function NavUser({
                 <IconUserCircle />
                 <span>Profile</span>
               </DropdownMenuItem>
+
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <IconSun className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                  <IconMoon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                  <span>Theme</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem onClick={() => setTheme("light")}>
+                    <IconSun className="mr-2 h-4 w-4" />
+                    <span>Light</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("dark")}>
+                    <IconMoon className="mr-2 h-4 w-4" />
+                    <span>Dark</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("system")}>
+                    <IconDeviceDesktop className="mr-2 h-4 w-4" />
+                    <span>System</span>
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
 
               <DropdownMenuItem onClick={logout}>
                 <IconLogout />

@@ -8,9 +8,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { IconDotsVertical, IconPencil, IconTrash } from '@tabler/icons-react'
+import { IconDotsVertical, IconPencil, IconTrash, IconCalendar, IconAlertCircle } from '@tabler/icons-react'
 import { useTasks } from '@/hooks/useTasks'
 import type { Task } from '@/types'
+import { format, isPast, isToday } from 'date-fns'
 
 interface TaskItemProps {
   task: Task
@@ -55,12 +56,45 @@ export const TaskItem = ({ task, onEdit }: TaskItemProps) => {
               {task.description}
             </p>
           )}
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex flex-wrap items-center gap-2 mt-2">
             <Badge variant={task.completed ? 'secondary' : 'default'}>
               {task.completed ? 'Completed' : 'Pending'}
             </Badge>
+            
+            {task.dueDate && (
+              <Badge
+                variant="outline"
+                className={
+                  !task.completed && isPast(new Date(task.dueDate)) && !isToday(new Date(task.dueDate))
+                    ? 'border-red-500 text-red-500'
+                    : isToday(new Date(task.dueDate))
+                    ? 'border-orange-500 text-orange-500'
+                    : ''
+                }
+              >
+                <IconCalendar className="h-3 w-3 mr-1" />
+                {format(new Date(task.dueDate), 'MMM d')}
+                {!task.completed && isPast(new Date(task.dueDate)) && !isToday(new Date(task.dueDate)) && (
+                  <IconAlertCircle className="h-3 w-3 ml-1" />
+                )}
+              </Badge>
+            )}
+
+            {task.categories?.map((tc) => (
+              <Badge
+                key={tc.category.id}
+                variant="outline"
+                style={{
+                  borderColor: tc.category.color,
+                  color: tc.category.color,
+                }}
+              >
+                {tc.category.name}
+              </Badge>
+            ))}
+            
             <span className="text-xs text-muted-foreground">
-              {new Date(task.created_at).toLocaleDateString('en-US', {
+              {new Date(task.createdAt).toLocaleDateString('en-US', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',
